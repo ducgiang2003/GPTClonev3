@@ -17,5 +17,7 @@ RUN npm install
 # Sao chép toàn bộ mã nguồn của ứng dụng
 COPY . .
 
+RUN mkdir -p /usr/src/app/.next && chmod -R 777 /usr/src/app/.next
+
 # Chạy Next.js ở chế độ phát triển
 CMD ["npx", "next", "dev"]
