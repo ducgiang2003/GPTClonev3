@@ -1,0 +1,3 @@
+[submodule "AI-frontend"]
+	path = AI-frontend
+	url = https://github.com/ducgiang2003/GPTClone.git
