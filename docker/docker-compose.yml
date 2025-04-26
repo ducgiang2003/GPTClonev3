@@ -1,0 +1,50 @@
+
+services:
+  backend:
+    build:
+      context: ../AI-backend
+      dockerfile: ../docker/nodeJS.Dockerfile
+    ports:
+      - "3001:3000"
+    networks:
+      - app-network
+    container_name: AI-API
+    volumes:
+      - ../AI-backend:/usr/src/app  # Mount mã nguồn Web từ host vào container
+      - /usr/src/app/node_modules
+
+
+
+
+  frontend:
+    build:
+      context: ../AI-Platform-
+      dockerfile: ../docker/nextJS.Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    container_name: AI-WEB
+    volumes:
+      - ../AI-Platform-:/usr/src/app  # Mount mã nguồn Web từ host vào container
+      - /usr/src/app/node_modules
+
+
+
+  nginx:
+    image: nginx:latest
+    container_name: AI-NGINX
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - app-network
+    
+
+networks:
+  app-network:
+    driver: bridge
