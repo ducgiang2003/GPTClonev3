@@ -1,23 +1,19 @@
 FROM node:22-alpine
 
-# Thiết lập thư mục làm việc
 WORKDIR /usr/src/app
 
-# Sao chép các tệp package.json và package-lock.json
+# Copy package.json trước để cache layer install
 COPY package.json package-lock.json ./
 
-
+# Copy Prisma nếu có
 COPY prisma ./prisma
-
 RUN npx prisma generate
 
-# Cài đặt các thư viện và dependencies
 RUN npm install
 
-# Sao chép toàn bộ mã nguồn của ứng dụng
-COPY . .
 
-RUN mkdir -p /usr/src/app/.next && chmod -R 777 /usr/src/app/.next
 
-# Chạy Next.js ở chế độ phát triển
-CMD ["npx", "next", "dev"]
+# Không cần copy toàn bộ source ở đây (sẽ mount bằng volume ở docker-compose)
+
+# CMD dev mode
+CMD ["npx", "next", "dev", "-p", "3000"]

@@ -12,4 +12,4 @@ RUN npm install
 COPY . .
 
 
-CMD ["node", "src/app.js"]
+CMD ["npx", "nodemon", "--legacy-watch", "/usr/src/app/src/app.js"]
